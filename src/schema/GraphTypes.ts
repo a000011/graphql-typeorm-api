@@ -14,17 +14,13 @@ const UserType: GraphQLObjectType = new GraphQLObjectType({
         password: { type: GraphQLString },
         picture: { type: GraphQLString },
         about: { type: GraphQLString },
+        groupId: {type: GraphQLString},
+        rankId: {type: GraphQLString},
         groupInfo: {
-            type: GroupType,
-            async resolve(parent, args) {
-                return await Group.findOne({id: parent.group.id});
-            }
+            type: GroupType
         },
         rankInfo: {
-            type: RankType,
-            async resolve(parent, args) {
-                return await Rank.findOne({id: parent.rank.id});
-            }
+            type: RankType
         }
     })
 })
@@ -42,7 +38,6 @@ const GroupType: GraphQLObjectType = new GraphQLObjectType({
                 return await User.find({group:parent.id});
             }
         }
-
     })
 })
 
@@ -68,12 +63,12 @@ const UserInput = new GraphQLInputObjectType({
         id:{type: GraphQLID},
         name: { type: GraphQLString },
         secname: { type: GraphQLString },
-        group: { type: GraphQLString },
-        rank: { type: GraphQLString },
+        groupId: { type: GraphQLString },
+        rankId: { type: GraphQLString },
         isAdmin: { type: GraphQLString },
         password: { type: GraphQLString },
         picture: { type: GraphQLString },
-        about: { type: GraphQLString }
+        about: { type: GraphQLString! }
     }
 })
 

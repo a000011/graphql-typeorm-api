@@ -6,6 +6,7 @@ import {User} from "./entity/User";
 
 const app = express();
 const PORT = 8000;
+
 (async () => {
     await createConnection();
     //console.log(await User.find({relations: ['group', 'rank']}))

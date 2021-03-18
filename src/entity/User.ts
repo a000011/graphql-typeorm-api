@@ -8,25 +8,36 @@ export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({nullable: false})
     name: string;
 
-    @Column()
+    @Column({nullable: false})
     secname: string;
     
-    @ManyToOne(() => Rank, rank => rank.id)
+    @ManyToOne(() => Rank, {eager: true, nullable: false})
+    @JoinColumn({name: "rankId"})
     rank: Rank;
 
-    @Column()
+    @Column({nullable: false})
+    rankId: string;
+
+    @Column({nullable: false})
     isAdmin: string;
 
-    @Column()
+    @Column({nullable: false})
     password: string;
 
-    @Column()
+    @Column({nullable: true})
     picture: string;
 
-    @ManyToOne(() => Group, group => group.id)
+    @ManyToOne(() => Group,{eager: true})
+    @JoinColumn({name: "groupId"})
     group: Group;
+
+    @Column({nullable: false})
+    groupId: string;
+
+    @Column({nullable: false})
+    about: string;
 }
 

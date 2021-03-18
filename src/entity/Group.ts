@@ -9,10 +9,10 @@ export class Group extends BaseEntity {
     @Column()
     name: string;
 
-    @Column()
+    @Column({nullable: true})
     picture: string;
 
-    @Column()
+    @Column({nullable: false})
     about: string;
 
 }
