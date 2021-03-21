@@ -9,7 +9,7 @@ export class Group extends BaseEntity {
     @Column()
     name: string;
 
-    @Column({nullable: true})
+    @Column("longtext",{nullable: true})
     picture: string;
 
     @Column({nullable: false})

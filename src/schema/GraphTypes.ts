@@ -35,13 +35,21 @@ const GroupType: GraphQLObjectType = new GraphQLObjectType({
         Users: {
             type: new GraphQLList(UserType),
             async resolve(parent, args) {
-                return await User.find({group:parent.id});
+                return await User.find({groupId: parent.id});
             }
         }
     })
 })
 
-const RankType: GraphQLObjectType = new GraphQLObjectType({
+const UserOnlyPicture = new GraphQLObjectType({
+    name: "UserImgByGroupId",
+    fields: () => ({
+        id: { type: GraphQLID },
+        picture: { type: GraphQLString },
+    })
+})
+
+const RankType = new GraphQLObjectType({
     name: "Rank",
     fields: () => ({
         id: { type: GraphQLID },
@@ -91,7 +99,7 @@ const RankInput = new GraphQLInputObjectType({
     }
 })
 
-export {  RankInput, GroupType, UserType, RankType, UserInput, GroupInput };
+export {  RankInput, GroupType, UserType, RankType, UserInput, GroupInput, UserOnlyPicture };
 
 // Users{
 //     name

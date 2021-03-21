@@ -9,7 +9,7 @@ export class Rank extends BaseEntity {
     @Column()
     name: string;
 
-    @Column()
+    @Column("longtext")
     picture: string;
 
 }

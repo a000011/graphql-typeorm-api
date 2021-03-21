@@ -2,7 +2,7 @@ import { GraphQLObjectType, GraphQLID, GraphQLList, GraphQLScalarType, GraphQLSt
 import {User} from "../entity/User";
 import {Group} from "../entity/Group";
 import {Rank} from "../entity/Rank";
-import { GroupType, UserType, RankType } from "./GraphTypes";
+import { GroupType, UserType, RankType, UserOnlyPicture } from "./GraphTypes";
 
 const RootQuery = new GraphQLObjectType({
     name: "Queries",
@@ -17,10 +17,20 @@ const RootQuery = new GraphQLObjectType({
             type: GroupType,
             args: { id: { type: GraphQLString } },
             async resolve(parent, args) {
-                return Group.findOne({id:args.id})
+                return await Group.findOne({id:args.id});
             }
 
-        },        
+        },       
+        UsersImg:{
+            type: new GraphQLList(UserOnlyPicture),
+            args: { groupId:{type:GraphQLID}},
+            async resolve(parent, args){
+                //console.log(await User.find({groupId: args.groupId}))
+                //let UsersIMg = await User.find({select:['id'], where:{groupId:args.groupId}})
+                //console.log(UsersIMg)
+                return await User.find({select:['id', 'picture'], where:{groupId:args.groupId}});
+            }
+        },
         Users: {
             type: new GraphQLList(UserType),
             async resolve() {
@@ -34,6 +44,15 @@ const RootQuery = new GraphQLObjectType({
             },
             async resolve(parent, args) {
                 return await User.findOne({id:args.id});
+            }
+        },
+        UserByGroupId: {
+            type: new GraphQLList(UserType),
+            args: {
+                groupId:{type: GraphQLID}
+            },
+            async resolve(parent, args) {
+                return await User.find({groupId:args.groupId});
             }
         },
         Ranks: {

@@ -5,7 +5,7 @@ import {Rank} from "./Rank";
 @Entity()
 export class User extends BaseEntity {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({})
     id: number;
 
     @Column({nullable: false})
@@ -27,7 +27,7 @@ export class User extends BaseEntity {
     @Column({nullable: false})
     password: string;
 
-    @Column({nullable: true})
+    @Column("longtext",{nullable: true})
     picture: string;
 
     @ManyToOne(() => Group,{eager: true})

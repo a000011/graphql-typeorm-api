@@ -24,6 +24,7 @@ const Mutations = new GraphQLObjectType({
                 User: { type: UserInput }
             },
             async resolve(parent, args) {
+
                 return await User.create(args.User as User).save()
             }
         },
@@ -42,6 +43,7 @@ const Mutations = new GraphQLObjectType({
                 Rank:{type:RankInput}
             },
             async resolve(parent, args) {
+                
                 let rank = args.Rank
                 Object.keys(rank).forEach((key) => (rank[key] == null) && delete rank[key]);
                 await Rank.update(rank.id, rank);
