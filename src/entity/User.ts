@@ -1,43 +1,51 @@
-import {JoinColumn, BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
-import {Group} from "./Group";
-import {Rank} from "./Rank";
+import { Field, Int, ObjectType } from "type-graphql";
+import {
+  JoinColumn,
+  BaseEntity,
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+} from "typeorm";
+import { Group } from "./Group";
+import { Rank } from "./Rank";
 
+@ObjectType()
 @Entity()
 export class User extends BaseEntity {
+  @Field(() => Int)
+  @PrimaryGeneratedColumn({})
+  id: number;
 
-    @PrimaryGeneratedColumn({})
-    id: number;
+  @Field(() => String, { nullable: true })
+  @Column({ nullable: true })
+  rankId: number;
 
-    @Column({nullable: false})
-    name: string;
+  @ManyToOne(() => Rank, { eager: true, nullable: false })
+  @JoinColumn({ name: "rankId" })
+  rank: Rank;
 
-    @Column({nullable: false})
-    secname: string;
-    
-    @ManyToOne(() => Rank, {eager: true, nullable: false})
-    @JoinColumn({name: "rankId"})
-    rank: Rank;
+  @Field(() => String, { nullable: true })
+  @Column({ nullable: true })
+  groupId: number;
 
-    @Column({nullable: false})
-    rankId: string;
+  @ManyToOne(() => Group, (group) => group.users)
+  @JoinColumn({ name: "groupId" })
+  group: Group;
 
-    @Column({nullable: false})
-    isAdmin: string;
+  @Field(() => String, { nullable: false })
+  @Column({ nullable: false })
+  name: string;
 
-    @Column({nullable: false})
-    password: string;
+  @Field(() => String, { nullable: true })
+  @Column({ nullable: true })
+  secname: string;
 
-    @Column("longtext",{nullable: true})
-    picture: string;
+  @Field(() => String, { nullable: true })
+  @Column("longtext", { nullable: true })
+  picture: string;
 
-    @ManyToOne(() => Group,{eager: true})
-    @JoinColumn({name: "groupId"})
-    group: Group;
-
-    @Column({nullable: false})
-    groupId: string;
-
-    @Column({nullable: false})
-    about: string;
+  @Field(() => String, { nullable: true })
+  @Column({ nullable: false, default: "" })
+  about: string;
 }
-

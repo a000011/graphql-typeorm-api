@@ -1,26 +1,44 @@
-import * as express from "express";
-import {graphqlHTTP} from "express-graphql";
-const schema = require("./schema/Graph");
+import "reflect-metadata";
 import { createConnection } from "typeorm";
-import {User} from "./entity/User";
-import * as bodyParser from "body-parser";
-
-const app = express();
+import express from "express";
+import { ApolloServer } from "apollo-server-express";
+import { buildSchema } from "type-graphql";
+import { createServer } from "http";
+import { execute, subscribe } from "graphql";
+import { SubscriptionServer } from "subscriptions-transport-ws";
+import GroupResolver from "./resolvers/GroupResolver";
+import RankResolver from "./resolvers/RankResolver";
+import UserResolver from "./resolvers/UserResolver";
 const PORT = 8000;
 
 (async () => {
-    await createConnection();
-    //console.log(await User.find({relations: ['group', 'rank']}))
-} 
-)();
+  const app = express();
+  const schema = await buildSchema({
+    resolvers: [GroupResolver, RankResolver, UserResolver],
+  });
 
+  await createConnection();
 
-app.use( bodyParser({limit: '10MB'}) ); 
-app.use("/graph", graphqlHTTP({
-    schema: schema,
-    graphiql: true
-}));
+  const apolloServer = new ApolloServer({ schema });
+  apolloServer.applyMiddleware({ app });
 
-app.listen(PORT, () => {
-    console.log("[server]: Server is working");
-});
+  const server = createServer(app);
+  server.listen(PORT, () => {
+    // eslint-disable-next-line no-new
+    new SubscriptionServer(
+      {
+        execute,
+        subscribe,
+        schema,
+      },
+      {
+        server,
+      }
+    );
+
+    console.log(`
+		express server STARTED
+		on port ${PORT}
+		url = http://localhost:${PORT}/graphql`);
+  });
+})();

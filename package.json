@@ -12,7 +12,9 @@
    "license": "ISC",
    "dependencies": {
       "@types/body-parser": "^1.19.0",
+      "apollo-server-express": "^2.21.2",
       "body-parser": "^1.19.0",
+      "class-validator": "^0.13.1",
       "config": "^3.3.4",
       "cors": "^2.8.5",
       "dotenv": "^8.2.0",
@@ -28,6 +30,7 @@
       "nodemon": "^2.0.7",
       "parse5": "^6.0.1",
       "reflect-metadata": "^0.1.13",
+      "type-graphql": "^1.1.1",
       "typeorm": "^0.2.31",
       "xmldom": "^0.4.0",
       "xmlserializer": "^0.6.1",
@@ -44,7 +47,7 @@
       "@types/parse5": "^6.0.0",
       "@types/xmldom": "^0.1.30",
       "@types/xmlserializer": "^0.6.2",
-      "ts-node": "3.3.0",
-      "typescript": "3.3.3333"
+      "ts-node": "^9.1.1",
+      "typescript": "^4.2.3"
    }
 }
