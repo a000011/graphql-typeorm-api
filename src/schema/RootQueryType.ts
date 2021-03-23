@@ -23,12 +23,10 @@ const RootQuery = new GraphQLObjectType({
         },       
         UsersImg:{
             type: new GraphQLList(UserOnlyPicture),
-            args: { groupId:{type:GraphQLID}},
+            args: { GroupId:{type:GraphQLString}},
             async resolve(parent, args){
-                //console.log(await User.find({groupId: args.groupId}))
-                //let UsersIMg = await User.find({select:['id'], where:{groupId:args.groupId}})
-                //console.log(UsersIMg)
-                return await User.find({select:['id', 'picture'], where:{groupId:args.groupId}});
+                //console.log(args)
+                return await User.find({select:['id', 'picture'], where:{groupId:args.GroupId}});
             }
         },
         Users: {
