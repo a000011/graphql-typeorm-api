@@ -46,6 +46,14 @@ export class User extends BaseEntity {
   picture: string;
 
   @Field(() => String, { nullable: true })
+  @Column({ nullable: false, type: 'date'})
+  lastPictureUpdate: string;
+
+  @Field(() => String, { nullable: true })
   @Column({ nullable: false, default: "" })
   about: string;
+
+  @Field(() => String, { nullable: true })
+  @Column({ nullable: false, type: 'date'})
+  birthday: string;
 }

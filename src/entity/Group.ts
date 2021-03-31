@@ -27,6 +27,10 @@ export class Group extends BaseEntity {
   @Column("longtext", { nullable: true })
   picture: string;
 
+  @Field(() => String, { nullable: true })
+  @Column({ nullable: false, type: 'date'})
+  lastPictureUpdate: string;
+
   @Field(() => String)
   @Column({ nullable: false, default: "" })
   about: string;

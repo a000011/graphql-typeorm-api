@@ -15,4 +15,8 @@ export class Rank extends BaseEntity {
   @Field(() => String, { nullable: true })
   @Column("longtext", { nullable: true })
   picture: string;
+
+  @Field(() => String, { nullable: true })
+  @Column({ nullable: false, type: 'date'})
+  lastPictureUpdate: string;
 }

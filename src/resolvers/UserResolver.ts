@@ -30,6 +30,9 @@ class NewUser {
 
   @Field(() => String, { nullable: true })
   about: string;
+
+  @Field(() => String, { nullable: true })
+  lastPictureUpdate: string;
 }
 
 @InputType()
@@ -51,6 +54,9 @@ class UpdateUser {
 
   @Field(() => String, { nullable: true })
   about: string;
+
+  @Field(() => String, { nullable: true })
+  lastPictureUpdate: string;
 }
 
 @Resolver()
@@ -68,6 +74,7 @@ export default class UserResolver {
   @Mutation(() => User) async AddUser(
     @Arg("newUser", () => NewUser) newUser: NewUser
   ): Promise<User> {
+    newUser.lastPictureUpdate = new Date().toISOString();
     return await User.create(newUser).save();
   }
 
@@ -80,6 +87,12 @@ export default class UserResolver {
     @Arg("id", () => Int) id: number,
     @Arg("updateUser", () => UpdateUser) updateUser: UpdateUser
   ) {
+
+    if(updateUser.picture != null){
+      updateUser.lastPictureUpdate = new Date().toISOString();
+    }
+    
+    
     User.update(id, updateUser);
     return true;
   }

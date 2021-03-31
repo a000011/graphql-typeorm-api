@@ -12,6 +12,7 @@ import {
   UserType,
   UserInput,
 } from "./GraphTypes";
+import { cwd } from "process";
 
 const Mutations = new GraphQLObjectType({
   name: "Mutations",
@@ -31,7 +32,11 @@ const Mutations = new GraphQLObjectType({
         User: { type: UserInput },
       },
       async resolve(parent, args) {
-        return await User.create(args.User as User).save();
+        console.log("asdasdasdasd");
+        
+        let newUser = args.User;
+        newUser.lastPictureUpdate = (new Date()).toISOString();
+        return await User.create(newUser as User).save();
       },
     },
     AddRank: {

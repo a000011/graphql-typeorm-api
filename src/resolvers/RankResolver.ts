@@ -16,6 +16,9 @@ class NewRank {
 
   @Field(() => String, { nullable: true })
   picture: string;
+
+  @Field(() => String, { nullable: true })
+  lastPictureUpdate: string;
 }
 
 @InputType()
@@ -25,6 +28,9 @@ class UpdateRank {
 
   @Field(() => String, { nullable: true })
   picture: string;
+
+  @Field(() => String, { nullable: true })
+  lastPictureUpdate: string;
 }
 
 @Resolver()
@@ -42,6 +48,7 @@ export default class RankResolver {
   @Mutation(() => Rank) async AddRank(
     @Arg("newRank", () => NewRank) newRank: NewRank
   ): Promise<Rank> {
+    newRank.lastPictureUpdate = new Date().toISOString();
     return await Rank.create(newRank).save();
   }
 
@@ -54,6 +61,9 @@ export default class RankResolver {
     @Arg("id", () => Int) id: number,
     @Arg("updateRank", () => UpdateRank) updateRank: UpdateRank
   ) {
+    if(updateRank.picture != null){
+      updateRank.lastPictureUpdate = new Date().toISOString(); 
+    }
     Rank.update(id, updateRank);
     return true;
   }

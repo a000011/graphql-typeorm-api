@@ -19,6 +19,9 @@ class NewGroup {
 
   @Field(() => String, { nullable: true })
   about: string;
+
+  @Field(() => String, { nullable: true })
+  lastPictureUpdate: string;
 }
 
 @InputType()
@@ -31,6 +34,9 @@ class UpdateGroup {
 
   @Field(() => String, { nullable: true })
   about: string;
+
+  @Field(() => String, { nullable: true })
+  lastPictureUpdate: string;
 }
 
 @Resolver()
@@ -48,6 +54,7 @@ export default class GroupResolver {
   @Mutation(() => Group) async AddGroup(
     @Arg("newGroup", () => NewGroup) newGroup: NewGroup
   ): Promise<Group> {
+    newGroup.lastPictureUpdate = new Date().toISOString();
     return await Group.create(newGroup).save();
   }
 
@@ -60,6 +67,9 @@ export default class GroupResolver {
     @Arg("id", () => Int) id: number,
     @Arg("updateGroup", () => UpdateGroup) updateGroup: UpdateGroup
   ) {
+    if(updateGroup.picture != null){
+      updateGroup.lastPictureUpdate = new Date().toISOString();
+    }
     Group.update(id, updateGroup);
     return true;
   }

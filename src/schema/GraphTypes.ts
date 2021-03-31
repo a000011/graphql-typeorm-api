@@ -4,7 +4,7 @@ import {
   GraphQLNonNull,
   GraphQLString,
   GraphQLID,
-  GraphQLList,
+  GraphQLList
 } from "graphql";
 import { User } from "../entity/User";
 import { Group } from "../entity/Group";
@@ -19,8 +19,9 @@ const UserType: GraphQLObjectType = new GraphQLObjectType({
     isAdmin: { type: GraphQLString },
     password: { type: GraphQLString },
     picture: { type: GraphQLString },
+    lastPictureUpdate:{type: GraphQLString},
     about: { type: GraphQLString },
-    groupId: { type: GraphQLString },
+    groupId: { type: GraphQLString }, 
     rankId: { type: GraphQLString },
     groupInfo: {
       type: GroupType,
@@ -28,6 +29,7 @@ const UserType: GraphQLObjectType = new GraphQLObjectType({
     rankInfo: {
       type: RankType,
     },
+    birthday:{type: GraphQLString}
   }),
 });
 
@@ -38,6 +40,7 @@ const GroupType: GraphQLObjectType = new GraphQLObjectType({
     name: { type: GraphQLString },
     picture: { type: GraphQLString },
     about: { type: GraphQLString },
+    lastPictureUpdate:{type: GraphQLString},
     Users: {
       type: new GraphQLList(UserType),
       async resolve(parent, args) {
