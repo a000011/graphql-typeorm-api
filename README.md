@@ -1,4 +1,4 @@
-# GraphQL Api для моего проекта
+# GraphQL Api
 
 ##### [MVVMRANKS/ORDER](https://github.com/stercoris/mvvm-ranks) - Parent project
 
